@@ -63,47 +63,137 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
   </html> -->
 
   <!DOCTYPE html>
-  <html lang="en">
+<html lang="id">
 
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Madani Clinic</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Log In - Madani Klinik</title>
 
-  <body class="bg-light">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
 
-    <div class="container d-flex justify-content-center align-items-center vh-100">
-      <div class="card shadow p-4" style="width: 400px;">
-        <h3 class="text-center mb-4">Madani Clinic</h3>
+  <link rel="stylesheet" href="css/login.css" />
+</head>
 
-        <form name="login" method="post" action="login.php">
-          <div class="mb-3">
-            <label class="form-label">Email</label>
-            <input type="text" name="email" class="form-control" placeholder="Masukkan email">
+<body>
+
+  <div class="auth-card">
+
+    <div class="form-panel">
+
+      <form action="user/insert.php" method="POST">
+
+        <div id="login-form">
+          <h5 class="mb-1" style="font-size:17px;font-weight:600;">Log in to your Account</h5>
+
+          <p class="text-muted mb-3" style="font-size:13px;">
+            Welcome back, please enter your details.
+          </p>
+
+          <button class="btn-google mb-2">
+            <img src="https://www.svgrepo.com/show/475656/google-color.svg" width="18" alt="Google" />
+            Continue with Google
+          </button>
+
+          <div class="divider">OR</div>
+
+          <div class="mb-2">
+            <label class="form-label">Email Address*</label>
+
+            <input type="email" class="form-control" placeholder="KenjiTiveston@gmail.com" />
           </div>
 
           <div class="mb-3">
-            <label class="form-label">Password</label>
-            <input type="password" name="password" class="form-control" placeholder="Masukkan password">
+            <label class="form-label">Password*</label>
+
+            <div class="input-group">
+              <input type="password" class="form-control" id="pw3" value="123456789012" />
+
+              <button type="button" class="btn" onclick="togglePw('pw3', this)">
+                <i class="bi bi-eye"></i>
+              </button>
+            </div>
           </div>
 
-          <div class="mb-3">
-            <label class="form-label">Remember me</label>
-            <input type="checkbox" value="1">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+
+            <div class="form-check mb-0">
+              <input class="form-check-input" type="checkbox" id="remember" />
+
+              <label class="form-check-label" for="remember">
+                Remember me
+              </label>
+            </div>
+
+            <a href="#" class="forgot-link">Forgot Password?</a>
+
           </div>
 
-          <input type="submit" name="submit" value="login!" class="btn btn-primary w-100">
+          <button class="btn-primary-main">
+            <a href="dashboard/admin.html">Log in</a>
+          </button>
 
-          <!-- <button type="submit" name="submit" value="login!" class="btn btn-primary w-100">Login</button> -->
-        </form>
-      </div>
+          <p class="switch-text">
+            Don't have an account?
+            <a href="dashboard/user/create.php">Sign Up</a>
+          </p>
+
+        </div>
+
+      </form>
+
     </div>
 
-  </body>
+    <div class="brand-panel">
 
-  </html>
+      <div>
+
+        <h2>Log in Form</h2>
+
+        <p>by Madani Klinik</p>
+
+        <div class="d-flex flex-column gap-2">
+
+          <div class="social-chip">
+            <i class="bi bi-google"></i>
+            Google
+          </div>
+
+          <div class="social-chip">
+            <i class="bi bi-instagram"></i>
+            Instagram
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    function togglePw(id, btn) {
+
+      const input = document.getElementById(id);
+      const icon = btn.querySelector('i');
+
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.className = 'bi bi-eye-slash';
+      } else {
+        input.type = 'password';
+        icon.className = 'bi bi-eye';
+      }
+    }
+  </script>
+
+</body>
+
+</html>
   <?php
 }
 ?>

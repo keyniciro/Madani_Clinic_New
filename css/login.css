@@ -1,0 +1,176 @@
+body {
+  min-height: 100vh;
+  background-color: #f0f2f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 780px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.10);
+  display: flex;
+}
+
+.form-panel {
+  flex: 1;
+  background: #fff;
+  padding: 2rem 2rem;
+}
+
+.form-label {
+  font-size: 13px;
+  color: #6c757d;
+  margin-bottom: 4px;
+}
+
+.form-control {
+  font-size: 13px;
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+  padding: 8px 12px;
+}
+
+.form-control:focus {
+  border-color: #1a56db;
+  box-shadow: 0 0 0 3px rgba(26,86,219,0.12);
+}
+
+.btn-google {
+  border: 1px solid #dee2e6;
+  background: #fff;
+  color: #333;
+  font-size: 14px;
+  border-radius: 8px;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.btn-google:hover {
+  background: #f8f9fa;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #adb5bd;
+  font-size: 12px;
+  margin: 0.9rem 0;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-top: 1px solid #e9ecef;
+}
+
+.btn-primary-main {
+  background: #1a56db;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px;
+  width: 100%;
+  color: #fff;
+}
+
+.btn-primary-main a {
+  color: white;
+  text-decoration: none;
+}
+
+.btn-primary-main:hover {
+  background: #1648c0;
+}
+
+.switch-text {
+  text-align: center;
+  font-size: 12px;
+  color: #6c757d;
+  margin-top: 10px;
+}
+
+.switch-text a {
+  color: #1a56db;
+  text-decoration: none;
+}
+
+.input-group .btn {
+  border: 1px solid #dee2e6;
+  border-left: none;
+  background: #fff;
+  color: #6c757d;
+  border-radius: 0 8px 8px 0;
+}
+
+.input-group .form-control {
+  border-radius: 8px 0 0 8px;
+}
+
+.brand-panel {
+  width: 220px;
+  background: #1a56db;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 2rem 1.5rem;
+  flex-shrink: 0;
+}
+
+.brand-panel h2 {
+  color: #fff;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.brand-panel p {
+  color: rgba(255,255,255,0.75);
+  font-size: 13px;
+  margin-bottom: 1.5rem;
+}
+
+.social-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255,255,255,0.85);
+  font-size: 12px;
+}
+
+.social-chip i {
+  font-size: 14px;
+  color: #fff;
+}
+
+.form-check-label {
+  font-size: 12px;
+}
+
+.forgot-link {
+  font-size: 12px;
+  color: #1a56db;
+  text-decoration: none;
+}
+
+@media (max-width: 600px) {
+
+  .brand-panel {
+    display: none;
+  }
+
+  .auth-card {
+    max-width: 100%;
+    border-radius: 0;
+  }
+}

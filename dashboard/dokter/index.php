@@ -1,6 +1,6 @@
 <?php
-require_once '../checkuser.php';
-require_once "../db.php";
+require_once '../../../checkuser.php';
+require_once "../../../db.php";
 
 // Query untuk mengambil semua data pengguna
 $sql = "SELECT d.id, u.email, d.nama, d.spesialis, d.telepon FROM dokter d LEFT JOIN users u ON d.user_id = u.id";
