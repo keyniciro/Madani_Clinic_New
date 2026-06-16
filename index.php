@@ -33,8 +33,8 @@
         <?php if (isset($_SESSION['email'])): ?>
           <?php
             $dashLink = match($_SESSION['role'] ?? '') {
-              'admin'  => 'dashboard/index.php',
-              'dokter' => 'dashboard/index.php',
+              'admin'  => 'dashboard/pasien/index.php',
+              'dokter' => 'dashboard/dokter/index.php',
               'pasien' => 'portal/index.php',
               default  => 'login.php'
             };

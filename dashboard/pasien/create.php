@@ -1,6 +1,6 @@
 <?php
-require_once '../../../checkuser.php';
-require_once "../../../db.php";
+require_once '../../checkuser.php';
+require_once "../../db.php";
 
 // Fungsi untuk mengenkripsi password dengan SHA1 dan salt
 function encryptPassword($password)

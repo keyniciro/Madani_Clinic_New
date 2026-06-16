@@ -28,107 +28,83 @@ $stmt->execute();
 // } else {
 //     echo "Tidak ada data ditemukan";
 // }
+
+$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$success = $_GET['success'] ?? '';
+$error   = $_GET['error'] ?? '';
+
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Pasien</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>Data Pasien - Klinik Madani</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 </head>
-
 <body class="bg-light">
+<?php include '../navbar.php'; ?>
+<div class="container py-4">
+  <?php if ($success): ?><div class="alert alert-success alert-dismissible fade show"><?= htmlspecialchars($success) ?><button type="button" class="btn-close" data-bs-dismiss="alert"></button></div><?php endif; ?>
+  <?php if ($error): ?><div class="alert alert-danger alert-dismissible fade show"><?= htmlspecialchars($error) ?><button type="button" class="btn-close" data-bs-dismiss="alert"></button></div><?php endif; ?>
 
-    <div class="container mt-5">
-
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2>Data Pasien</h2>
-            <a href="create.php" class="btn btn-primary">+ Tambah Pasien</a>
-        </div>
-
-        <div class="card shadow">
-            <div class="card-body">
-
-                <div class="row mb-3">
-                    <div class="col-md-4">
-                        <input type="text" class="form-control" placeholder="Cari pasien...">
-                    </div>
-                </div>
-
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover align-middle">
-                        <thead class="table-primary text-center">
-                            <tr>
-                                <th>No</th>
-                                <th>Nama</th>
-                                <th>NIK</th>
-                                <th>Tanggal Lahir</th>
-                                <th>Jenis Kelamin</th>
-                                <th>No HP</th>
-                                <th>Alamat</th>
-                                <th>Email</th>
-                                <th width="180">Aksi</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            <?php
-                            $no = 1;
-
-                            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                ?>
-
-                                <tr>
-
-                                    <td class="text-center"><?= $no++ ?></td>
-
-                                    <td><?= $row['nama'] ?></td>
-
-                                    <td><?= $row['nik'] ?></td>
-
-                                    <td><?= $row['tanggal_lahir'] ?></td>
-
-                                    <td class="text-center">
-                                        <?php
-                                        if ($row['jenis_kelamin'] == 'L') {
-                                            echo "Laki-laki";
-                                        } else {
-                                            echo "Perempuan";
-                                        }
-                                        ?>
-                                    </td>
-
-                                    <td><?= $row['telepon'] ?></td>
-
-                                    <td><?= $row['alamat'] ?></td>
-
-                                    <td><?= $row['email'] ?></td>
-
-                                    <td class="text-center">
-
-                                        <a href="update.php?id=<?= $row['id'] ?>" class="btn btn-warning btn-sm">
-                                            Edit
-                                        </a>
-
-                                        <a href="delete.php?id=<?= $row['id'] ?>" class="btn btn-danger btn-sm"
-                                            onclick="return confirm('Yakin hapus data?')">
-                                            Hapus
-                                        </a>
-
-                                    </td>
-
-                                </tr>
-
-                            <?php } ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h4 class="fw-bold mb-0"><i class="bi bi-people me-2"></i>Data Pasien</h4>
+      <small class="text-muted">Total: <?= count($rows) ?> pasien</small>
     </div>
-</body>
+    <a href="create.php" class="btn btn-primary"><i class="bi bi-plus-lg me-1"></i>Tambah Pasien</a>
+  </div>
 
+  <div class="card border-0 shadow-sm">
+    <div class="card-body">
+      <div class="row mb-3">
+        <div class="col-md-4">
+          <input type="text" id="search" class="form-control" placeholder="Cari nama / NIK...">
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-hover align-middle" id="tabel">
+          <thead class="table-primary text-center">
+            <tr>
+              <th>No</th><th>Nama</th><th>NIK</th><th>Tgl Lahir</th><th>JK</th><th>Telepon</th><th>Email</th><th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php if (count($rows) > 0): ?>
+              <?php $no = 1; foreach ($rows as $row): ?>
+              <tr>
+                <td class="text-center"><?= $no++ ?></td>
+                <td><?= htmlspecialchars($row['nama']) ?></td>
+                <td><?= htmlspecialchars($row['nik']) ?></td>
+                <td><?= htmlspecialchars($row['tanggal_lahir']) ?></td>
+                <td class="text-center"><?= $row['jenis_kelamin'] === 'L' ? 'Laki-laki' : 'Perempuan' ?></td>
+                <td><?= htmlspecialchars($row['telepon']) ?></td>
+                <td><?= htmlspecialchars($row['email'] ?? '-') ?></td>
+                <td class="text-center">
+                  <a href="update.php?id=<?= $row['id'] ?>" class="btn btn-warning btn-sm"><i class="bi bi-pencil"></i></a>
+                  <a href="delete.php?id=<?= $row['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin hapus pasien ini?')"><i class="bi bi-trash"></i></a>
+                </td>
+              </tr>
+              <?php endforeach; ?>
+            <?php else: ?>
+              <tr><td colspan="8" class="text-center text-muted py-4">Belum ada data pasien</td></tr>
+            <?php endif; ?>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  document.getElementById('search').addEventListener('input', function() {
+    const q = this.value.toLowerCase();
+    document.querySelectorAll('#tabel tbody tr').forEach(tr => {
+      tr.style.display = tr.textContent.toLowerCase().includes(q) ? '' : 'none';
+    });
+  });
+</script>
+</body>
 </html>

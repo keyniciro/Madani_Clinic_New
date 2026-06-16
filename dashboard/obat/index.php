@@ -1,46 +1,19 @@
 <?php
 require_once '../../checkuser.php';
-require_once "../../db.php";
+require_once '../../db.php';
 if ($_SESSION['role'] !== 'admin') { header('location: /login.php'); exit; }
 
-// Query untuk mengambil semua data pengguna
-$sql = "SELECT d.id, u.email, d.nama, d.spesialis, d.telepon FROM dokter d LEFT JOIN users u ON d.user_id = u.id";
-$stmt = $conn->prepare($sql);
+$stmt = $conn->prepare("SELECT * FROM obat ORDER BY nama_obat ASC");
 $stmt->execute();
-
-// Menampilkan data dalam tabel HTML
-// if ($stmt->rowCount() > 0) {
-//     echo "<table border='1' cellpadding='10'>";
-//     echo "<tr><th>Nama</th><th>nik</th><th>Tanggal Lahir</th><th>Jenis Kelamin</th><th>Alamat</th><th>No telpon</th><th>Action</th></tr>";
-
-//     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-//         echo "<tr>";
-//         echo "<td>" . $row['nama'] . "</td>";
-//         echo "<td>" . $row['nik'] . "</td>";
-//         echo "<td>" . $row['tanggal_lahir'] . "</td>";
-//         echo "<td>" . $row['jenis_kelamin'] . "</td>";
-//         echo "<td>" . $row['alamat'] . "</td>";
-//         echo "<td>" . $row["telepon"] . "</td>";
-//         echo "<td><a href='update_user.php?id=" . $row['id'] . "'>Edit</a> | <a href='delete_user.php?id=" . $row['id'] . "'>Delete</a></td>";
-//         echo "</tr>";
-//     }
-
-//     echo "</table>";
-// } else {
-//     echo "Tidak ada data ditemukan";
-// }
-
 $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $success = $_GET['success'] ?? '';
 $error   = $_GET['error'] ?? '';
-
 ?>
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Data Dokter - Klinik Madani</title>
+  <title>Data Obat - Klinik Madani</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 </head>
@@ -52,24 +25,22 @@ $error   = $_GET['error'] ?? '';
 
   <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
-      <h4 class="fw-bold mb-0"><i class="bi bi-person-badge me-2"></i>Data Dokter</h4>
-      <small class="text-muted">Total: <?= count($rows) ?> dokter</small>
+      <h4 class="fw-bold mb-0"><i class="bi bi-capsule me-2"></i>Data Obat</h4>
+      <small class="text-muted">Total: <?= count($rows) ?> obat</small>
     </div>
-    <a href="create.php" class="btn btn-primary"><i class="bi bi-plus-lg me-1"></i>Tambah Dokter</a>
+    <a href="create.php" class="btn btn-primary"><i class="bi bi-plus-lg me-1"></i>Tambah Obat</a>
   </div>
 
   <div class="card border-0 shadow-sm">
     <div class="card-body">
-      <div class="row mb-3">
-        <div class="col-md-4">
-          <input type="text" id="search" class="form-control" placeholder="Cari nama / spesialis...">
-        </div>
+      <div class="mb-3">
+        <input type="text" id="search" class="form-control w-25" placeholder="Cari nama obat...">
       </div>
       <div class="table-responsive">
         <table class="table table-hover align-middle" id="tabel">
           <thead class="table-primary text-center">
             <tr>
-              <th>No</th><th>Nama</th><th>Spesialis</th><th>Telepon</th><th>Email</th><th>Aksi</th>
+              <th>No</th><th>Nama Obat</th><th>Stok</th><th>Harga</th><th>Aksi</th>
             </tr>
           </thead>
           <tbody>
@@ -77,18 +48,21 @@ $error   = $_GET['error'] ?? '';
               <?php $no = 1; foreach ($rows as $row): ?>
               <tr>
                 <td class="text-center"><?= $no++ ?></td>
-                <td><?= htmlspecialchars($row['nama']) ?></td>
-                <td><?= htmlspecialchars($row['spesialis']) ?></td>
-                <td><?= htmlspecialchars($row['telepon']) ?></td>
-                <td><?= htmlspecialchars($row['email'] ?? '-') ?></td>
+                <td><?= htmlspecialchars($row['nama_obat']) ?></td>
+                <td class="text-center">
+                  <span class="badge bg-<?= $row['stok'] <= 10 ? 'danger' : 'success' ?>">
+                    <?= $row['stok'] ?>
+                  </span>
+                </td>
+                <td>Rp <?= number_format($row['harga'], 0, ',', '.') ?></td>
                 <td class="text-center">
                   <a href="update.php?id=<?= $row['id'] ?>" class="btn btn-warning btn-sm"><i class="bi bi-pencil"></i></a>
-                  <a href="delete.php?id=<?= $row['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin hapus dokter ini?')"><i class="bi bi-trash"></i></a>
+                  <a href="delete.php?id=<?= $row['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin hapus obat ini?')"><i class="bi bi-trash"></i></a>
                 </td>
               </tr>
               <?php endforeach; ?>
             <?php else: ?>
-              <tr><td colspan="6" class="text-center text-muted py-4">Belum ada data dokter</td></tr>
+              <tr><td colspan="5" class="text-center text-muted py-4">Belum ada data obat</td></tr>
             <?php endif; ?>
           </tbody>
         </table>

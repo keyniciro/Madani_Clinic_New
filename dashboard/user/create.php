@@ -1,5 +1,5 @@
 <?php
-// require_once '../../../checkuser.php';
+require_once '../../checkuser.php';
 require_once "../../db.php";
 // if ($_SESSION["role"] != "admin") {
 //     echo"Akses ditolak, Anda bukan admin";
