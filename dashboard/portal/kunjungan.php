@@ -1,6 +1,6 @@
 <?php
-require_once '../checkuser.php';
-require_once '../db.php';
+require_once '../../checkuser.php';
+require_once '../../db.php';
 if ($_SESSION['role'] !== 'pasien') { header('location: /login.php'); exit; }
 
 $stmt = $conn->prepare("SELECT p.id FROM pasien p LEFT JOIN users u ON p.user_id = u.id WHERE u.email = :email");
@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
-<?php include '../dashboard/navbar.php'; ?>
+<?php include '../navbar.php'; ?>
 <div class="container py-5">
   <div class="row justify-content-center">
     <div class="col-lg-7">

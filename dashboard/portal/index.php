@@ -1,17 +1,18 @@
 <?php
-require_once '../checkuser.php';
-require_once '../db.php';
+require_once '../../checkuser.php';
+require_once '../../db.php';
 if ($_SESSION['role'] !== 'pasien') { header('location: /login.php'); exit; }
 
-// Ambil data pasien berdasarkan user yang login
 $stmt = $conn->prepare("SELECT p.* FROM pasien p LEFT JOIN users u ON p.user_id = u.id WHERE u.email = :email");
 $stmt->bindParam(':email', $_SESSION['email']);
 $stmt->execute();
 $pasien = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Ambil statistik kunjungan
+// FIX: simpan ke variabel dulu sebelum bindParam
+$pasien_id = $pasien['id'] ?? 0;
+
 $stmtK = $conn->prepare("SELECT COUNT(*) FROM kunjungan WHERE pasien_id = :id");
-$stmtK->bindParam(':id', $pasien['id'] ?? 0);
+$stmtK->bindParam(':id', $pasien_id);
 $stmtK->execute();
 $totalKunjungan = $stmtK->fetchColumn();
 ?>
@@ -24,7 +25,7 @@ $totalKunjungan = $stmtK->fetchColumn();
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
-<?php include '../dashboard/navbar.php'; ?>
+<?php include '../navbar.php'; ?>
 <div class="container py-4">
   <div class="mb-4">
     <h4 class="fw-bold">Selamat datang, <?= htmlspecialchars($pasien['nama'] ?? $_SESSION['email']) ?>!</h4>
