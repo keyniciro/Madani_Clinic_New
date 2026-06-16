@@ -1,6 +1,6 @@
 <?php
-require_once '../../../checkuser.php';
-require_once '../../../db.php';
+require_once '../../checkuser.php';
+require_once "../../db.php";
 if ($_SESSION['role'] !== 'admin') { header('location: /login.php'); exit; }
 
 if (!isset($_GET['id'])) { header('location: index.php'); exit; }
