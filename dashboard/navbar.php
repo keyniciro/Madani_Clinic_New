@@ -31,7 +31,7 @@
       </ul>
       <div class="d-flex align-items-center gap-3">
         <span class="text-white-50 small"><i class="bi bi-person-circle me-1"></i><?= htmlspecialchars($email) ?> (<?= $role ?>)</span>
-        <a href="/logout.php" class="btn btn-outline-light btn-sm"><i class="bi bi-box-arrow-right me-1"></i>Logout</a>
+        <a href="../../logout.php" class="btn btn-outline-light btn-sm"><i class="bi bi-box-arrow-right me-1"></i>Logout</a>
       </div>
     </div>
   </div>
